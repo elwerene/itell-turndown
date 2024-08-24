@@ -1,8 +1,10 @@
 import test from 'ava'
 
-import { plus100 } from '../index'
+import { convert } from '../index'
 
 test('sync function from native code', (t) => {
-  const fixture = 42
-  t.is(plus100(fixture), fixture + 100)
+  const html = '<h1>Heading</h1>'
+  console.log("HTML: ", html)
+  console.log("MD: ", convert(html))
+  t.is(convert(html), '# Heading')
 })

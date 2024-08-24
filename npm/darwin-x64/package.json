@@ -1,5 +1,5 @@
 {
-  "name": "itell-markdown-darwin-x64",
+  "name": "@itell/markdown-darwin-x64",
   "version": "1.0.0",
   "os": [
     "darwin"

@@ -1,5 +1,5 @@
 {
-  "name": "itell-markdown-android-arm-eabi",
+  "name": "@itell/markdown-android-arm-eabi",
   "version": "1.0.0",
   "os": [
     "android"

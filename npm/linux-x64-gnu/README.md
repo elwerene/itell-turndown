@@ -1,3 +1,3 @@
-# `itell-markdown-linux-x64-gnu`
+# `@itell/markdown-linux-x64-gnu`
 
-This is the **x86_64-unknown-linux-gnu** binary for `itell-markdown`
+This is the **x86_64-unknown-linux-gnu** binary for `@itell/markdown`

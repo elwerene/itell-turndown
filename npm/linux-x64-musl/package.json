@@ -1,5 +1,5 @@
 {
-  "name": "itell-markdown-linux-x64-musl",
+  "name": "@itell/markdown-linux-x64-musl",
   "version": "1.0.0",
   "os": [
     "linux"

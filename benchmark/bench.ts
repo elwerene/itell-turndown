@@ -1,6 +1,6 @@
 import { Bench } from 'tinybench'
 
-import { plus100 } from '../index.js'
+import { convert } from '../index.js'
 
 function add(a: number) {
   return a + 100
@@ -8,11 +8,11 @@ function add(a: number) {
 
 const b = new Bench()
 
-b.add('Native a + 100', () => {
-  plus100(10)
+b.add('Native convert "<div>hello</div>"', () => {
+  convert("<div>hello</div>")
 })
 
-b.add('JavaScript a + 100', () => {
+b.add('JavaScript convert "<div>hello</div>"', () => {
   add(10)
 })
 

@@ -1,5 +1,5 @@
 {
-  "name": "itell-markdown",
+  "name": "@itell/markdown",
   "version": "1.0.0",
   "description": "Template project for writing node package with napi-rs",
   "main": "index.js",
@@ -18,7 +18,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "@itell/markdown",
+    "name": "markdown",
     "triples": {
       "defaults": true,
       "additional": [
@@ -54,7 +54,7 @@
     "lint": "oxlint .",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava",
-    "version": "napi version"
+    "napiVersion": "napi version"
   },
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4",

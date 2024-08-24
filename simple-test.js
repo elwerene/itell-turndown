@@ -1,5 +1,7 @@
-const { plus100 } = require('./index')
+const { convert } = require('./index')
 
-console.assert(plus100(0) === 100, 'Simple test failed')
+converter = convert
+
+console.assert(convert("<h1>Heading</h1>") === "# Heading", 'Simple test failed')
 
 console.info('Simple test passed')
