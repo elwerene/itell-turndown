@@ -5,8 +5,10 @@ This is an HTML to Markdown converter for iTELL. It is based on [htmd](https://g
 # Usage
 
 1. `yarn` to install dependencies.
-2. `yarn build` to build the project. This will generate a `package-template.[darwin|win32|linux].node` file in the project root.
+2. `yarn build` to build the project. This will generate an `itell-turndown.[darwin|win32|linux].node` file in the project root.
 3. `yarn test` to run tests with [ava](https://github.com/avajs/ava).
+
+Optionally, run benchmarks with `yarn bench`.
 
 ## Development requirements
 
@@ -14,7 +16,7 @@ This is an HTML to Markdown converter for iTELL. It is based on [htmd](https://g
 -   Install `Node.js`
 -   Install `yarn`
 
-## Release package
+## TODO: Release Package Instructions
 
 Ensure you have set your **NPM_TOKEN** in the `GitHub` project setting.
 
