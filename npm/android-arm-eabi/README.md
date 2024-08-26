@@ -1,3 +1,3 @@
-# `@itell/markdown-android-arm-eabi`
+# `itell-turndown-android-arm-eabi`
 
-This is the **armv7-linux-androideabi** binary for `@itell/markdown`
+This is the **armv7-linux-androideabi** binary for `itell-turndown`

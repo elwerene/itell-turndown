@@ -1,3 +1,3 @@
-# `@itell/markdown-android-arm64`
+# `itell-turndown-android-arm64`
 
-This is the **aarch64-linux-android** binary for `@itell/markdown`
+This is the **aarch64-linux-android** binary for `itell-turndown`

@@ -1,4 +1,4 @@
-# iTELL HTML to Markdown
+# iTELL Turndown
 
 This is an HTML to Markdown converter for iTELL. It is based on [htmd](https://github.com/letmutex/htmd/tree/main) and [turndown](https://github.com/mixmark-io/turndown).
 

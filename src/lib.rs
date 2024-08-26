@@ -12,7 +12,6 @@ use dom_walker::walk_node;
 use element_handler::{ElementHandler, ElementHandlers};
 use html5ever::tendril::TendrilSink;
 use html5ever::{parse_document, Attribute};
-use log;
 use markup5ever_rcdom::{Node, RcDom};
 use napi::Result;
 use napi_derive::napi;

@@ -14,274 +14,300 @@ let localFileExisted = false
 let loadError = null
 
 function isMusl() {
-    // For Node 10
-    if (!process.report || typeof process.report.getReport !== 'function') {
-        try {
-            const lddPath = require('child_process').execSync('which ldd').toString().trim()
-            return readFileSync(lddPath, 'utf8').includes('musl')
-        } catch (e) {
-            return true
-        }
-    } else {
-        const { glibcVersionRuntime } = process.report.getReport().header
-        return !glibcVersionRuntime
+  // For Node 10
+  if (!process.report || typeof process.report.getReport !== 'function') {
+    try {
+      const lddPath = require('child_process').execSync('which ldd').toString().trim()
+      return readFileSync(lddPath, 'utf8').includes('musl')
+    } catch (e) {
+      return true
     }
+  } else {
+    const { glibcVersionRuntime } = process.report.getReport().header
+    return !glibcVersionRuntime
+  }
 }
 
 switch (platform) {
-    case 'android':
-        switch (arch) {
-            case 'arm64':
-                localFileExisted = existsSync(join(__dirname, 'markdown.android-arm64.node'))
-                try {
-                    if (localFileExisted) {
-                        nativeBinding = require('./markdown.android-arm64.node')
-                    } else {
-                        nativeBinding = require('@itell/markdown-android-arm64')
-                    }
-                } catch (e) {
-                    loadError = e
-                }
-                break
-            case 'arm':
-                localFileExisted = existsSync(join(__dirname, 'markdown.android-arm-eabi.node'))
-                try {
-                    if (localFileExisted) {
-                        nativeBinding = require('./markdown.android-arm-eabi.node')
-                    } else {
-                        nativeBinding = require('@itell/markdown-android-arm-eabi')
-                    }
-                } catch (e) {
-                    loadError = e
-                }
-                break
-            default:
-                throw new Error(`Unsupported architecture on Android ${arch}`)
-        }
-        break
-    case 'win32':
-        switch (arch) {
-            case 'x64':
-                localFileExisted = existsSync(join(__dirname, 'markdown.win32-x64-msvc.node'))
-                try {
-                    if (localFileExisted) {
-                        nativeBinding = require('./markdown.win32-x64-msvc.node')
-                    } else {
-                        nativeBinding = require('@itell/markdown-win32-x64-msvc')
-                    }
-                } catch (e) {
-                    loadError = e
-                }
-                break
-            case 'ia32':
-                localFileExisted = existsSync(join(__dirname, 'markdown.win32-ia32-msvc.node'))
-                try {
-                    if (localFileExisted) {
-                        nativeBinding = require('./markdown.win32-ia32-msvc.node')
-                    } else {
-                        nativeBinding = require('@itell/markdown-win32-ia32-msvc')
-                    }
-                } catch (e) {
-                    loadError = e
-                }
-                break
-            case 'arm64':
-                localFileExisted = existsSync(join(__dirname, 'markdown.win32-arm64-msvc.node'))
-                try {
-                    if (localFileExisted) {
-                        nativeBinding = require('./markdown.win32-arm64-msvc.node')
-                    } else {
-                        nativeBinding = require('@itell/markdown-win32-arm64-msvc')
-                    }
-                } catch (e) {
-                    loadError = e
-                }
-                break
-            default:
-                throw new Error(`Unsupported architecture on Windows: ${arch}`)
-        }
-        break
-    case 'darwin':
-        localFileExisted = existsSync(join(__dirname, 'markdown.darwin-universal.node'))
+  case 'android':
+    switch (arch) {
+      case 'arm64':
+        localFileExisted = existsSync(join(__dirname, 'itell-turndown.android-arm64.node'))
         try {
-            if (localFileExisted) {
-                nativeBinding = require('./markdown.darwin-universal.node')
-            } else {
-                nativeBinding = require('@itell/markdown-darwin-universal')
-            }
-            break
-        } catch {}
-        switch (arch) {
-            case 'x64':
-                localFileExisted = existsSync(join(__dirname, 'markdown.darwin-x64.node'))
-                try {
-                    if (localFileExisted) {
-                        nativeBinding = require('./markdown.darwin-x64.node')
-                    } else {
-                        nativeBinding = require('@itell/markdown-darwin-x64')
-                    }
-                } catch (e) {
-                    loadError = e
-                }
-                break
-            case 'arm64':
-                localFileExisted = existsSync(join(__dirname, 'markdown.darwin-arm64.node'))
-                try {
-                    if (localFileExisted) {
-                        nativeBinding = require('./markdown.darwin-arm64.node')
-                    } else {
-                        nativeBinding = require('@itell/markdown-darwin-arm64')
-                    }
-                } catch (e) {
-                    loadError = e
-                }
-                break
-            default:
-                throw new Error(`Unsupported architecture on macOS: ${arch}`)
-        }
-        break
-    case 'freebsd':
-        if (arch !== 'x64') {
-            throw new Error(`Unsupported architecture on FreeBSD: ${arch}`)
-        }
-        localFileExisted = existsSync(join(__dirname, 'markdown.freebsd-x64.node'))
-        try {
-            if (localFileExisted) {
-                nativeBinding = require('./markdown.freebsd-x64.node')
-            } else {
-                nativeBinding = require('@itell/markdown-freebsd-x64')
-            }
+          if (localFileExisted) {
+            nativeBinding = require('./itell-turndown.android-arm64.node')
+          } else {
+            nativeBinding = require('itell-turndown-android-arm64')
+          }
         } catch (e) {
+          loadError = e
+        }
+        break
+      case 'arm':
+        localFileExisted = existsSync(join(__dirname, 'itell-turndown.android-arm-eabi.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./itell-turndown.android-arm-eabi.node')
+          } else {
+            nativeBinding = require('itell-turndown-android-arm-eabi')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Android ${arch}`)
+    }
+    break
+  case 'win32':
+    switch (arch) {
+      case 'x64':
+        localFileExisted = existsSync(
+          join(__dirname, 'itell-turndown.win32-x64-msvc.node')
+        )
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./itell-turndown.win32-x64-msvc.node')
+          } else {
+            nativeBinding = require('itell-turndown-win32-x64-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'ia32':
+        localFileExisted = existsSync(
+          join(__dirname, 'itell-turndown.win32-ia32-msvc.node')
+        )
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./itell-turndown.win32-ia32-msvc.node')
+          } else {
+            nativeBinding = require('itell-turndown-win32-ia32-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'arm64':
+        localFileExisted = existsSync(
+          join(__dirname, 'itell-turndown.win32-arm64-msvc.node')
+        )
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./itell-turndown.win32-arm64-msvc.node')
+          } else {
+            nativeBinding = require('itell-turndown-win32-arm64-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Windows: ${arch}`)
+    }
+    break
+  case 'darwin':
+    localFileExisted = existsSync(join(__dirname, 'itell-turndown.darwin-universal.node'))
+    try {
+      if (localFileExisted) {
+        nativeBinding = require('./itell-turndown.darwin-universal.node')
+      } else {
+        nativeBinding = require('itell-turndown-darwin-universal')
+      }
+      break
+    } catch {}
+    switch (arch) {
+      case 'x64':
+        localFileExisted = existsSync(join(__dirname, 'itell-turndown.darwin-x64.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./itell-turndown.darwin-x64.node')
+          } else {
+            nativeBinding = require('itell-turndown-darwin-x64')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'arm64':
+        localFileExisted = existsSync(
+          join(__dirname, 'itell-turndown.darwin-arm64.node')
+        )
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./itell-turndown.darwin-arm64.node')
+          } else {
+            nativeBinding = require('itell-turndown-darwin-arm64')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on macOS: ${arch}`)
+    }
+    break
+  case 'freebsd':
+    if (arch !== 'x64') {
+      throw new Error(`Unsupported architecture on FreeBSD: ${arch}`)
+    }
+    localFileExisted = existsSync(join(__dirname, 'itell-turndown.freebsd-x64.node'))
+    try {
+      if (localFileExisted) {
+        nativeBinding = require('./itell-turndown.freebsd-x64.node')
+      } else {
+        nativeBinding = require('itell-turndown-freebsd-x64')
+      }
+    } catch (e) {
+      loadError = e
+    }
+    break
+  case 'linux':
+    switch (arch) {
+      case 'x64':
+        if (isMusl()) {
+          localFileExisted = existsSync(
+            join(__dirname, 'itell-turndown.linux-x64-musl.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./itell-turndown.linux-x64-musl.node')
+            } else {
+              nativeBinding = require('itell-turndown-linux-x64-musl')
+            }
+          } catch (e) {
             loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(
+            join(__dirname, 'itell-turndown.linux-x64-gnu.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./itell-turndown.linux-x64-gnu.node')
+            } else {
+              nativeBinding = require('itell-turndown-linux-x64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
         }
         break
-    case 'linux':
-        switch (arch) {
-            case 'x64':
-                if (isMusl()) {
-                    localFileExisted = existsSync(join(__dirname, 'markdown.linux-x64-musl.node'))
-                    try {
-                        if (localFileExisted) {
-                            nativeBinding = require('./markdown.linux-x64-musl.node')
-                        } else {
-                            nativeBinding = require('@itell/markdown-linux-x64-musl')
-                        }
-                    } catch (e) {
-                        loadError = e
-                    }
-                } else {
-                    localFileExisted = existsSync(join(__dirname, 'markdown.linux-x64-gnu.node'))
-                    try {
-                        if (localFileExisted) {
-                            nativeBinding = require('./markdown.linux-x64-gnu.node')
-                        } else {
-                            nativeBinding = require('@itell/markdown-linux-x64-gnu')
-                        }
-                    } catch (e) {
-                        loadError = e
-                    }
-                }
-                break
-            case 'arm64':
-                if (isMusl()) {
-                    localFileExisted = existsSync(join(__dirname, 'markdown.linux-arm64-musl.node'))
-                    try {
-                        if (localFileExisted) {
-                            nativeBinding = require('./markdown.linux-arm64-musl.node')
-                        } else {
-                            nativeBinding = require('@itell/markdown-linux-arm64-musl')
-                        }
-                    } catch (e) {
-                        loadError = e
-                    }
-                } else {
-                    localFileExisted = existsSync(join(__dirname, 'markdown.linux-arm64-gnu.node'))
-                    try {
-                        if (localFileExisted) {
-                            nativeBinding = require('./markdown.linux-arm64-gnu.node')
-                        } else {
-                            nativeBinding = require('@itell/markdown-linux-arm64-gnu')
-                        }
-                    } catch (e) {
-                        loadError = e
-                    }
-                }
-                break
-            case 'arm':
-                if (isMusl()) {
-                    localFileExisted = existsSync(join(__dirname, 'markdown.linux-arm-musleabihf.node'))
-                    try {
-                        if (localFileExisted) {
-                            nativeBinding = require('./markdown.linux-arm-musleabihf.node')
-                        } else {
-                            nativeBinding = require('@itell/markdown-linux-arm-musleabihf')
-                        }
-                    } catch (e) {
-                        loadError = e
-                    }
-                } else {
-                    localFileExisted = existsSync(join(__dirname, 'markdown.linux-arm-gnueabihf.node'))
-                    try {
-                        if (localFileExisted) {
-                            nativeBinding = require('./markdown.linux-arm-gnueabihf.node')
-                        } else {
-                            nativeBinding = require('@itell/markdown-linux-arm-gnueabihf')
-                        }
-                    } catch (e) {
-                        loadError = e
-                    }
-                }
-                break
-            case 'riscv64':
-                if (isMusl()) {
-                    localFileExisted = existsSync(join(__dirname, 'markdown.linux-riscv64-musl.node'))
-                    try {
-                        if (localFileExisted) {
-                            nativeBinding = require('./markdown.linux-riscv64-musl.node')
-                        } else {
-                            nativeBinding = require('@itell/markdown-linux-riscv64-musl')
-                        }
-                    } catch (e) {
-                        loadError = e
-                    }
-                } else {
-                    localFileExisted = existsSync(join(__dirname, 'markdown.linux-riscv64-gnu.node'))
-                    try {
-                        if (localFileExisted) {
-                            nativeBinding = require('./markdown.linux-riscv64-gnu.node')
-                        } else {
-                            nativeBinding = require('@itell/markdown-linux-riscv64-gnu')
-                        }
-                    } catch (e) {
-                        loadError = e
-                    }
-                }
-                break
-            case 's390x':
-                localFileExisted = existsSync(join(__dirname, 'markdown.linux-s390x-gnu.node'))
-                try {
-                    if (localFileExisted) {
-                        nativeBinding = require('./markdown.linux-s390x-gnu.node')
-                    } else {
-                        nativeBinding = require('@itell/markdown-linux-s390x-gnu')
-                    }
-                } catch (e) {
-                    loadError = e
-                }
-                break
-            default:
-                throw new Error(`Unsupported architecture on Linux: ${arch}`)
+      case 'arm64':
+        if (isMusl()) {
+          localFileExisted = existsSync(
+            join(__dirname, 'itell-turndown.linux-arm64-musl.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./itell-turndown.linux-arm64-musl.node')
+            } else {
+              nativeBinding = require('itell-turndown-linux-arm64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(
+            join(__dirname, 'itell-turndown.linux-arm64-gnu.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./itell-turndown.linux-arm64-gnu.node')
+            } else {
+              nativeBinding = require('itell-turndown-linux-arm64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
         }
         break
-    default:
-        throw new Error(`Unsupported OS: ${platform}, architecture: ${arch}`)
+      case 'arm':
+        if (isMusl()) {
+          localFileExisted = existsSync(
+            join(__dirname, 'itell-turndown.linux-arm-musleabihf.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./itell-turndown.linux-arm-musleabihf.node')
+            } else {
+              nativeBinding = require('itell-turndown-linux-arm-musleabihf')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(
+            join(__dirname, 'itell-turndown.linux-arm-gnueabihf.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./itell-turndown.linux-arm-gnueabihf.node')
+            } else {
+              nativeBinding = require('itell-turndown-linux-arm-gnueabihf')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 'riscv64':
+        if (isMusl()) {
+          localFileExisted = existsSync(
+            join(__dirname, 'itell-turndown.linux-riscv64-musl.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./itell-turndown.linux-riscv64-musl.node')
+            } else {
+              nativeBinding = require('itell-turndown-linux-riscv64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(
+            join(__dirname, 'itell-turndown.linux-riscv64-gnu.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./itell-turndown.linux-riscv64-gnu.node')
+            } else {
+              nativeBinding = require('itell-turndown-linux-riscv64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 's390x':
+        localFileExisted = existsSync(
+          join(__dirname, 'itell-turndown.linux-s390x-gnu.node')
+        )
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./itell-turndown.linux-s390x-gnu.node')
+          } else {
+            nativeBinding = require('itell-turndown-linux-s390x-gnu')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Linux: ${arch}`)
+    }
+    break
+  default:
+    throw new Error(`Unsupported OS: ${platform}, architecture: ${arch}`)
 }
 
 if (!nativeBinding) {
-    if (loadError) {
-        throw loadError
-    }
-    throw new Error(`Failed to load native binding`)
+  if (loadError) {
+    throw loadError
+  }
+  throw new Error(`Failed to load native binding`)
 }
 
 const { convert } = nativeBinding

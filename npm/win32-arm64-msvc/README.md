@@ -1,3 +1,3 @@
-# `@itell/markdown-win32-arm64-msvc`
+# `itell-turndown-win32-arm64-msvc`
 
-This is the **aarch64-pc-windows-msvc** binary for `@itell/markdown`
+This is the **aarch64-pc-windows-msvc** binary for `itell-turndown`

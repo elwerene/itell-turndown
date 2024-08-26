@@ -1,3 +1,3 @@
-# `@itell/markdown-darwin-arm64`
+# `itell-turndown-darwin-arm64`
 
-This is the **aarch64-apple-darwin** binary for `@itell/markdown`
+This is the **aarch64-apple-darwin** binary for `itell-turndown`
