@@ -10,11 +10,11 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-log = "0.4"
-napi        = "2"
-napi-derive = "2"
-html5ever = "0.27"
+html5ever         = "0.27"
+log               = "0.4"
 markup5ever_rcdom = "0.3.0"
+napi              = "2"
+napi-derive       = "2"
 
 [build-dependencies]
 napi-build = "2"
