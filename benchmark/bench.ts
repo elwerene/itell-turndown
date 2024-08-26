@@ -1,19 +1,17 @@
 import { Bench } from 'tinybench'
-
 import { convert } from '../index.js'
+import TurndownService from 'joplin-turndown'
 
-function add(a: number) {
-    return a + 100
-}
-
+const testStr = '<div>hello</div>'
+var td = new TurndownService()
 const b = new Bench()
 
-b.add('Native convert "<div>hello</div>"', () => {
-    convert('<div>hello</div>')
+b.add(`Native convert ${testStr}`, () => {
+    convert(testStr)
 })
 
-b.add('JavaScript convert "<div>hello</div>"', () => {
-    add(10)
+b.add(`JavaScript convert ${testStr}`, () => {
+    td.turndown(testStr)
 })
 
 await b.run()

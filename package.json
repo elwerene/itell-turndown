@@ -35,6 +35,10 @@
             ]
         }
     },
+    "workspaces": [
+        "src",
+        "benchmark"
+    ],
     "engines": {
         "node": ">= 10"
     },
