@@ -19,10 +19,10 @@ pub(super) fn table_cell_handler(element: Element) -> Option<String> {
 
     if Rc::ptr_eq(first_td, element.node) {
         // First item in row
-        return Some(format!("| {} |", element.content));
+        Some(format!("| {} |", element.content))
     } else {
         // Not the first item in row
-        return Some(format!(" {} |", element.content));
+        Some(format!(" {} |", element.content))
     }
 }
 
