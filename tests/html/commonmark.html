@@ -86,14 +86,6 @@ sit</pre>
         <pre class="expected">`_emphasis_`</pre>
     </div>
 
-    <div class="case" data-name="h1">
-        <div class="input">
-            <h1>Level One Heading</h1>
-        </div>
-        <pre class="expected">Level One Heading
-=================</pre>
-    </div>
-
     <div class="case" data-name="escape = when used as heading">
         <div class="input">===</div>
         <pre class="expected">\===</pre>
@@ -109,14 +101,6 @@ sit</pre>
             <h1>Level One Heading with ATX</h1>
         </div>
         <pre class="expected"># Level One Heading with ATX</pre>
-    </div>
-
-    <div class="case" data-name="h2">
-        <div class="input">
-            <h2>Level Two Heading</h2>
-        </div>
-        <pre class="expected">Level Two Heading
------------------</pre>
     </div>
 
     <div class="case" data-name="h2 as atx" data-options='{"headingStyle":"atx"}'>
@@ -257,10 +241,12 @@ link")</pre>
 end</code></pre>
         </div>
 
-        <pre class="expected">    def code_block
-      # 42 < 9001
-      "Hello world!"
-    end</pre>
+        <pre class="expected">```
+def code_block
+  # 42 < 9001
+  "Hello world!"
+end
+```</pre>
     </div>
 
     <div class="case" data-name="multiple pre/code blocks">
@@ -278,17 +264,21 @@ end</code></pre>
 end</code></pre>
         </div>
 
-        <pre class="expected">    def first_code_block
-      # 42 < 9001
-      "Hello world!"
-    end
+        <pre class="expected">```
+def first_code_block
+  # 42 < 9001
+  "Hello world!"
+end
+```
 
 next:
 
-    def second_code_block
-      # 42 < 9001
-      "Hello world!"
-    end</pre>
+```
+def second_code_block
+  # 42 < 9001
+  "Hello world!"
+end
+```</pre>
     </div>
 
     <div class="case" data-name="pre/code block with multiple new lines">
@@ -304,13 +294,15 @@ removed</code></pre>
             </div>
         </div>
 
-        <pre class="expected">    Multiple new lines
-    
-    
-    should not be
-    
-    
-    removed</pre>
+        <pre class="expected">```
+Multiple new lines
+
+
+should not be
+
+
+removed
+```</pre>
     </div>
 
     <div class="case" data-name="fenced pre/code block" data-options='{"codeBlockStyle": "fenced"}'>
@@ -569,15 +561,16 @@ Another paragraph.
                 <pre><code>return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;</code></pre>
             </blockquote>
         </div>
-        <pre class="expected">> This is a header.
-> -----------------
+        <pre class="expected">> ## This is a header.
 > 
 > 1.  This is the first list item.
 > 2.  This is the second list item.
 > 
 > A code block:
 > 
->     return 1 < 2 ? shell_exec('echo $input | $markdown_script') : 0;</pre>
+> ```
+> return 1 < 2 ? shell_exec('echo $input | $markdown_script') : 0;
+> ```</pre>
     </div>
 
     <div class="case" data-name="multiple divs">
@@ -609,7 +602,9 @@ Another div</pre>
         <div class="input">
             <pre><code>Hello<!-- comment --> world</code></pre>
         </div>
-        <pre class="expected">    Hello world</pre>
+        <pre class="expected">```
+Hello world
+```</pre>
     </div>
 
     <div class="case" data-name="leading whitespace in heading">
@@ -746,7 +741,9 @@ Content in another div</pre>
         <div class="input">
             <pre><code>def this_is_a_method; end;</code></pre>
         </div>
-        <pre class="expected">    def this_is_a_method; end;</pre>
+        <pre class="expected">```
+def this_is_a_method; end;
+```</pre>
     </div>
 
     <div class="case" data-name="escaping strong markdown with *">
