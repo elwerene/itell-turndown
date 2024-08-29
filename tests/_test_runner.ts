@@ -6,24 +6,21 @@ import TurndownService from 'joplin-turndown'
 
 var td = new TurndownService({ codeBlockStyle: 'fenced', headingStyle: 'atx' })
 
-// Read the HTML file
-const html = fs.readFileSync('tests/html/commonmark.html', 'utf-8')
+export default function runTests(htmlPath: string) {
+    var html = fs.readFileSync(htmlPath, 'utf-8')
+    const dom = new JSDOM(html)
+    const document = dom.window.document
 
-// Create a DOM from the HTML
-const dom = new JSDOM(html)
+    var testCases = document.querySelectorAll('.case')
 
-// Access the document object
-const document = dom.window.document
+    for (var i = 0; i < testCases.length; i++) {
+        const { output, expected, testCaseName } = collectCase(testCases[i])
 
-var testCases = document.querySelectorAll('.case')
-
-for (var i = 0; i < testCases.length; i++) {
-    const { output, expected, testCaseName } = collectCase.call(this, testCases[i])
-
-    test(i.toString() + '. ' + testCaseName, function (t) {
-        t.plan(1)
-        t.is(output, expected)
-    })
+        test(i.toString() + '. ' + testCaseName, function (t) {
+            t.plan(1)
+            t.is(output, expected)
+        })
+    }
 }
 
 function collectCase(testCase: any) {
@@ -34,12 +31,6 @@ function collectCase(testCase: any) {
 
     var expected = expectedElement.textContent
     var output = convert(inputElement.innerHTML)
-
-    var outputElement = document.createElement('pre')
-    outputElement.className = 'output'
-
-    testCase.insertBefore(outputElement, inputElement.nextSibling)
-    outputElement.textContent = output
 
     if (output !== expected) {
         console.log('Test case: ' + testCaseName)

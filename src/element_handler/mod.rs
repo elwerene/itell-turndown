@@ -26,7 +26,7 @@ use li::list_item_handler;
 use list::list_handler;
 use markup5ever_rcdom::Node;
 use std::{collections::HashSet, rc::Rc};
-use table::table_cell_handler;
+use table::{table_cell_handler, table_handler, table_row_handler, table_section_handler};
 
 /// The DOM element handler.
 pub trait ElementHandler: Send + Sync {
@@ -124,6 +124,9 @@ impl ElementHandlers {
 
         // table
         handlers.add_handler(vec!["th", "td"], table_cell_handler);
+        handlers.add_handler(vec!["tr"], table_row_handler);
+        handlers.add_handler(vec!["thead", "tbody", "tfoot"], table_section_handler);
+        handlers.add_handler(vec!["table"], table_handler);
 
         handlers
     }
