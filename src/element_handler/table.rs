@@ -1,6 +1,5 @@
 use crate::{node_util::get_parent_node, Element};
 use markup5ever_rcdom::{Node, NodeData};
-// use std::cell::{Ref, RefCell};
 use std::collections::HashMap;
 use std::rc::Rc;
 
@@ -9,27 +8,6 @@ pub(super) fn table_cell_handler(element: Element) -> Option<String> {
     cell(content, element.node)
 }
 
-// rules.tableRow = {
-//   filter: 'tr',
-//   replacement: function (content, node) {
-//     var borderCells = ''
-//     var alignMap = { left: ':--', right: '--:', center: ':-:' }
-
-//     if (isHeadingRow(node)) {
-//       for (var i = 0; i < node.childNodes.length; i++) {
-//         var border = '---'
-//         var align = (
-//           node.childNodes[i].getAttribute('align') || ''
-//         ).toLowerCase()
-
-//         if (align) border = alignMap[align] || border
-
-//         borderCells += cell(border, node.childNodes[i])
-//       }
-//     }
-//     return '\n' + content + (borderCells ? '\n' + borderCells : '')
-//   }
-// }
 pub(super) fn table_row_handler(row: Element) -> Option<String> {
     let children = row.node.children.borrow();
     let mut border_cells = String::new();
@@ -44,11 +22,7 @@ pub(super) fn table_row_handler(row: Element) -> Option<String> {
 
     if is_heading_row(row.node) {
         for child in children.iter() {
-            if let NodeData::Element {
-                ref attrs,
-                ..
-            } = child.data
-            {
+            if let NodeData::Element { ref attrs, .. } = child.data {
                 let align = attrs
                     .borrow()
                     .iter()
@@ -126,18 +100,6 @@ pub(super) fn is_heading_row(tr: &Rc<Node>) -> bool {
     }
 }
 
-// function isFirstTbody (element) {
-//   var previousSibling = element.previousSibling
-//   return (
-//     element.nodeName === 'TBODY' && (
-//       !previousSibling ||
-//       (
-//         previousSibling.nodeName === 'THEAD' &&
-//         /^\s*$/i.test(previousSibling.textContent)
-//       )
-//     )
-//   )
-// }
 fn is_first_tbody(node: &Rc<Node>) -> bool {
     let parent_node = get_parent_node(node).unwrap();
     let siblings = get_child_elements(&parent_node);
