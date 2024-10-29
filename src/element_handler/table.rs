@@ -68,7 +68,6 @@ pub(super) fn table_section_handler(element: Element) -> Option<String> {
 pub(super) fn is_heading_row(tr: &Rc<Node>) -> bool {
     let parent_node = get_parent_node(tr).unwrap();
     let siblings = get_child_elements(&parent_node);
-    let children = get_child_elements(tr);
     let parent_name = if let NodeData::Element { ref name, .. } = parent_node.data {
         name.local.to_string()
     } else {
@@ -79,16 +78,8 @@ pub(super) fn is_heading_row(tr: &Rc<Node>) -> bool {
         .map(|child| Rc::ptr_eq(child, tr))
         .unwrap_or(false);
     let is_first_tbody = is_first_tbody(&parent_node);
-    let every_cell_is_th = children.iter().all(|child| {
-        if let NodeData::Element { ref name, .. } = child.data {
-            &name.local == "th"
-        } else {
-            false
-        }
-    });
 
-    parent_name == "thead"
-        || (first_sibling_is_tr && (parent_name == "table" || is_first_tbody) && every_cell_is_th)
+    parent_name == "thead" || (first_sibling_is_tr && (parent_name == "table" || is_first_tbody))
 }
 
 fn is_first_tbody(node: &Rc<Node>) -> bool {
