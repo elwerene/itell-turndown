@@ -104,8 +104,13 @@ fn is_first_tbody(node: &Rc<Node>) -> bool {
     let previous_sibling = siblings
         .iter()
         .position(|child| Rc::ptr_eq(child, node))
-        .map(|index: usize| siblings.get(index - 1))
-        .unwrap();
+        .and_then(|index: usize| {
+            if index == 0 {
+                None
+            } else {
+                siblings.get(index - 1)
+            }
+        });
 
     if !is_tbody {
         false
