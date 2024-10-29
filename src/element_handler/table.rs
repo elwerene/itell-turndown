@@ -32,19 +32,15 @@ pub(super) fn table_row_handler(row: Element) -> Option<String> {
                     .to_lowercase();
                 let align_map =
                     HashMap::from([("left", ":--"), ("right", "--:"), ("center", ":-:")]);
-                let border = align_map
-                    .get(&align as &str)
-                    .cloned()
-                    .or(Some(&"---"))
-                    .unwrap();
+                let border = align_map.get(&align as &str).cloned().unwrap_or("---");
                 border_cells.push_str(cell(border, child).unwrap().as_str());
             }
         }
         if !border_cells.is_empty() {
-            border_cells.insert_str(0, "\n");
+            border_cells.insert(0, '\n');
         }
     }
-    return Some(format!("\n{}{}", row.content, border_cells));
+    Some(format!("\n{}{}", row.content, border_cells))
 }
 
 pub(super) fn table_handler(element: Element) -> Option<String> {
@@ -52,11 +48,11 @@ pub(super) fn table_handler(element: Element) -> Option<String> {
 
     let first_row = table_rows.first();
     if first_row.is_none() || !is_heading_row(first_row.unwrap()) {
-        return Some(element.content.to_string());
+        Some(element.content.to_string())
     } else {
         let mut content = element.content.to_string();
         content = content.replace("\n\n", "\n");
-        return Some(format!("\n\n{}\n\n", content));
+        Some(format!("\n\n{}\n\n", content))
     }
 }
 
@@ -70,7 +66,7 @@ pub(super) fn table_section_handler(element: Element) -> Option<String> {
 //   following a blank THEAD)
 // - and every cell is a TH
 pub(super) fn is_heading_row(tr: &Rc<Node>) -> bool {
-    let parent_node = get_parent_node(&tr).unwrap();
+    let parent_node = get_parent_node(tr).unwrap();
     let siblings = get_child_elements(&parent_node);
     let children = get_child_elements(tr);
     let parent_name = if let NodeData::Element { ref name, .. } = parent_node.data {
@@ -90,14 +86,9 @@ pub(super) fn is_heading_row(tr: &Rc<Node>) -> bool {
             false
         }
     });
-    if parent_name == "thead" {
-        return true;
-    } else if first_sibling_is_tr && (parent_name == "table" || is_first_tbody) && every_cell_is_th
-    {
-        return true;
-    } else {
-        return false;
-    }
+
+    parent_name == "thead"
+        || (first_sibling_is_tr && (parent_name == "table" || is_first_tbody) && every_cell_is_th)
 }
 
 fn is_first_tbody(node: &Rc<Node>) -> bool {
@@ -117,9 +108,9 @@ fn is_first_tbody(node: &Rc<Node>) -> bool {
         .unwrap();
 
     if !is_tbody {
-        return false;
+        false
     } else if previous_sibling.is_none() {
-        return true;
+        true
     } else {
         let previous_sibling_is_thead =
             if let NodeData::Element { ref name, .. } = previous_sibling.unwrap().data {
@@ -132,11 +123,7 @@ fn is_first_tbody(node: &Rc<Node>) -> bool {
             .iter()
             .any(|text| !text.trim().is_empty());
 
-        if previous_sibling_is_thead && !previous_sibling_has_text {
-            return true;
-        } else {
-            return false;
-        }
+        previous_sibling_is_thead && !previous_sibling_has_text
     }
 }
 
@@ -179,9 +166,9 @@ fn get_child_elements(node: &Rc<Node>) -> Vec<Rc<Node>> {
 }
 
 fn get_first_child_index(node: &Rc<Node>) -> Option<usize> {
-    let parent = get_parent_node(&node).unwrap();
+    let parent = get_parent_node(node).unwrap();
     let children = parent.children.borrow();
-    children.iter().position(|element| is_element(element))
+    children.iter().position(is_element)
 }
 
 fn get_table_rows(node: &Rc<Node>) -> Vec<Rc<Node>> {

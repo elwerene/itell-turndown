@@ -4,21 +4,7 @@ edition = "2021"
 name    = "itell-turndown"
 version = "0.1.0"
 
-[lib]
-crate-type = ["cdylib"]
-
 [dependencies]
 html5ever         = "0.27"
 log               = "0.4"
-markup5ever_rcdom = "0.3.0"
-napi              = "2"
-napi-derive       = "2"
-
-[build-dependencies]
-napi-build = "2"
-
-[profile.release]
-lto = true
-
-[dev-dependencies]
-scraper = "0.20.0"
+markup5ever_rcdom = "0.3"

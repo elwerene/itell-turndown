@@ -1,9 +1,0 @@
-{
-    "type": "module",
-    "dependencies": {
-        "joplin-turndown": "^4.0.30"
-    },
-    "devDependencies": {
-        "@types/node": "^22.5.0"
-    }
-}

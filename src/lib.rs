@@ -6,33 +6,13 @@ pub(crate) mod node_util;
 pub mod options;
 pub(crate) mod text_util;
 
-use std::rc::Rc;
-
 use dom_walker::walk_node;
 use element_handler::{ElementHandler, ElementHandlers};
 use html5ever::tendril::TendrilSink;
 use html5ever::{parse_document, Attribute};
 use markup5ever_rcdom::{Node, RcDom};
-use napi::Result;
-use napi_derive::napi;
 use options::Options;
-
-// Convert HTML to Markdown.
-//
-// Example:
-//
-// ```
-// use htmd::convert;
-//
-// let md = convert("<h1>Hello</h1>").unwrap();
-// assert_eq!("# Hello", md);
-// ```
-#[napi]
-pub fn convert(input: String) -> Result<String> {
-    let output = HtmlToMarkdown::new().convert(input)?;
-    log::info!("Converted HTML to Markdown: {}", output);
-    Ok(output)
-}
+use std::rc::Rc;
 
 // The DOM element.
 pub struct Element<'a> {
@@ -96,7 +76,7 @@ impl HtmlToMarkdown {
     }
 
     // Convert HTML to Markdown.
-    pub fn convert(&self, html: String) -> Result<String> {
+    pub fn convert(&self, html: String) -> std::io::Result<String> {
         let dom = parse_document(RcDom::default(), Default::default())
             .from_utf8()
             .read_from(&mut html.as_bytes())?;
@@ -123,7 +103,7 @@ impl HtmlToMarkdown {
             append.push_str(&append_content);
         }
 
-        content.push_str(append.trim_end_matches(|ch| ch == '\n'));
+        content.push_str(append.trim_end_matches('\n'));
 
         Ok(content)
     }
